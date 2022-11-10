@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>pykitinfo package &#8212; pykitinfo  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/microchip.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pykitinfo documentation" href="index.html" /> 
+  </head><body>
+    <header>
+        <div class="logo">
+            <a href="https://microchip.com" target="_blank">
+                <img src="_static/microchip.png" />
+            </a>
+        </div>
+    </header>
+
+    <div class="related-wrapper">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pykitinfo documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pykitinfo  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pykitinfo package</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="document">
+        
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pykitinfo package</a><ul>
+<li><a class="reference internal" href="#module-pykitinfo">Description</a><ul>
+<li><a class="reference internal" href="#python-kit-information">Python Kit Information</a></li>
+<li><a class="reference internal" href="#cli-usage-example">CLI usage example</a></li>
+<li><a class="reference internal" href="#library-usage-example">Library usage example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pykitinfo.pykitinfo">Library functions (API)</a><ul>
+<li><a class="reference internal" href="#pykitinfo.pykitinfo.detect_all_kits"><code class="docutils literal notranslate"><span class="pre">detect_all_kits()</span></code></a></li>
+<li><a class="reference internal" href="#pykitinfo.pykitinfo.detect_edbg_kits"><code class="docutils literal notranslate"><span class="pre">detect_edbg_kits()</span></code></a></li>
+<li><a class="reference internal" href="#pykitinfo.pykitinfo.detect_pickit3s"><code class="docutils literal notranslate"><span class="pre">detect_pickit3s()</span></code></a></li>
+<li><a class="reference internal" href="#pykitinfo.pykitinfo.pykitinfo"><code class="docutils literal notranslate"><span class="pre">pykitinfo()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">pykitinfo documentation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pykitinfo.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        <div class="documentwrapper">
+            <div class="bodywrapper">
+                <div class="body" role="main">
+                    
+  <section id="pykitinfo-package">
+<h1>pykitinfo package<a class="headerlink" href="#pykitinfo-package" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="module-pykitinfo">
+<span id="description"></span><h2>Description<a class="headerlink" href="#module-pykitinfo" title="Permalink to this heading">¶</a></h2>
+<section id="python-kit-information">
+<h3>Python Kit Information<a class="headerlink" href="#python-kit-information" title="Permalink to this heading">¶</a></h3>
+<p>pykitinfo provides information about connected Microchip development kits and tools.</p>
+<p>pykitinfo will scan the USB subsystem for connected Microchip development kits, and provide information such as kit name, mounted device, serial port identifier, and extension information.</p>
+<dl class="simple">
+<dt>pykitinfo is available:</dt><dd><ul class="simple">
+<li><p>install using pip from pypi: <a class="reference external" href="https://pypi.org/project/pykitinfo">https://pypi.org/project/pykitinfo</a></p></li>
+<li><p>browse source code on github: <a class="reference external" href="https://github.com/microchip-pic-avr-tools/pykitinfo">https://github.com/microchip-pic-avr-tools/pykitinfo</a></p></li>
+<li><p>read API documentation on github: <a class="reference external" href="https://microchip-pic-avr-tools.github.io/pykitinfo">https://microchip-pic-avr-tools.github.io/pykitinfo</a></p></li>
+<li><p>read the changelog on github: <a class="reference external" href="https://github.com/microchip-pic-avr-tools/pykitinfo/blob/main/CHANGELOG.md">https://github.com/microchip-pic-avr-tools/pykitinfo/blob/main/CHANGELOG.md</a></p></li>
+</ul>
+</dd>
+<dt>pykitinfo currently supports:</dt><dd><ul class="simple">
+<li><p>all PKOB nano (nEDBG), mEDBG and EDBG kits</p></li>
+<li><p>Atmel-ICE, Power Debugger, JTAGICE3</p></li>
+<li><p>PICkit4, Snap (AVR mode)</p></li>
+<li><p>PICkit3, PKoB, PICkit4, PKOB4, Snap (PIC mode) - partial support</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="cli-usage-example">
+<h3>CLI usage example<a class="headerlink" href="#cli-usage-example" title="Permalink to this heading">¶</a></h3>
+<p>See examples on pypi: <a class="reference external" href="https://pypi.org/project/pykitinfo">https://pypi.org/project/pykitinfo</a></p>
+</section>
+<section id="library-usage-example">
+<h3>Library usage example<a class="headerlink" href="#library-usage-example" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pykitinfo uses python logging module</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+<span class="c1"># detect all compatible kits</span>
+<span class="kn">from</span> <span class="nn">pykitinfo</span> <span class="kn">import</span> <span class="n">pykitinfo</span>
+<span class="n">kits</span> <span class="o">=</span> <span class="n">pykitinfo</span><span class="o">.</span><span class="n">detect_all_kits</span><span class="p">()</span>
+
+<span class="c1"># display results</span>
+<span class="k">for</span> <span class="n">kit</span> <span class="ow">in</span> <span class="n">kits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found kit: &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kit</span><span class="p">[</span><span class="s1">&#39;debugger&#39;</span><span class="p">][</span><span class="s1">&#39;kitname&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="module-pykitinfo.pykitinfo">
+<span id="library-functions-api"></span><h2>Library functions (API)<a class="headerlink" href="#module-pykitinfo.pykitinfo" title="Permalink to this heading">¶</a></h2>
+<p>Python Kit Info</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pykitinfo.pykitinfo.detect_all_kits">
+<span class="sig-prename descclassname"><span class="pre">pykitinfo.pykitinfo.</span></span><span class="sig-name descname"><span class="pre">detect_all_kits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pykitinfo.pykitinfo.detect_all_kits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all compatible connected kits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kits and tools connected</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dictionaries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pykitinfo.pykitinfo.detect_edbg_kits">
+<span class="sig-prename descclassname"><span class="pre">pykitinfo.pykitinfo.</span></span><span class="sig-name descname"><span class="pre">detect_edbg_kits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pykitinfo.pykitinfo.detect_edbg_kits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all compatible EDBG-based kits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kits and tools connected</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dictionaries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pykitinfo.pykitinfo.detect_pickit3s">
+<span class="sig-prename descclassname"><span class="pre">pykitinfo.pykitinfo.</span></span><span class="sig-name descname"><span class="pre">detect_pickit3s</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pykitinfo.pykitinfo.detect_pickit3s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for PICkit3 devices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kits and tools connected</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dictionaries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pykitinfo.pykitinfo.pykitinfo">
+<span class="sig-prename descclassname"><span class="pre">pykitinfo.pykitinfo.</span></span><span class="sig-name descname"><span class="pre">pykitinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pykitinfo.pykitinfo.pykitinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main program</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-wrapper">
+        <div class="footer" role="contentinfo">
+            © Copyright 2021, Microchip Technology Inc
+        </div>
+    </div>
+  </body>
+</html>

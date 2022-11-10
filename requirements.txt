@@ -1,0 +1,8 @@
+# External packages
+pyusb>=1.2.0
+PyYAML
+appdirs
+
+# Microchip packages
+pyedbglib>=2.22.*
+pydebuggerconfig>=3.5
