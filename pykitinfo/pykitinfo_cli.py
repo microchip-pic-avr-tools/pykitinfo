@@ -109,6 +109,9 @@ def main():
     parser.add_argument("-l", "--long", action="store_true",
                         help="Show long list")
 
+    parser.add_argument("-b", "--brief", action="store_true",
+                        help="Show only serial port mapping for detected matching units")
+
     parser.add_argument("-v", "--verbose",
                         default="warning", choices=['debug', 'info', 'warning', 'error', 'critical'],
                         help="Logging verbosity level")
@@ -119,6 +122,10 @@ def main():
 
     parser.add_argument("-R", "--release-info", action="store_true",
                         help="Print pykitinfo release details and exit")
+
+    parser.add_argument("-s", "--serialnumber",
+                        type=str,
+                        help="USB serial number of the unit to use")
 
     # Parse args
     arguments = parser.parse_args()

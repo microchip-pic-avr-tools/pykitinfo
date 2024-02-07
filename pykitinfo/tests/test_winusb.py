@@ -22,6 +22,8 @@ if platform.system() == "Windows":
             # based on e.g. physical USB port address and/or interface number
             test_path_nedbg = \
                     r"\\?\usb#vid_03eb&pid_2175&mi_03#f&1bc0a34f&0&0003#{dee824ef-729b-4a0e-9c14-b7117d33a817}"
+            test_path_faulty = \
+                    r"\\?\usb#vid_04d8&pid_9000&mi_gfu#f&1bc0a34f&0&0003#{not-a-valid-id-anyway}"
             device = parse_device_path(test_path_snap)
             self.assertTrue(device["vendor_id"] == 0x04d8 and
                             device["product_id"] == 0x9018 and
@@ -35,4 +37,11 @@ if platform.system() == "Windows":
             device = parse_device_path(test_path_nedbg)
             self.assertTrue(device["vendor_id"] == 0x03eb and
                             device["product_id"] == 0x2175 and
-                            device["serial_number"] == "f&1bc0a34f&0&0003")
+                            device["serial_number"] == "f&1bc0a34f&0&0003" and
+                            device["interface_number"] == 3)
+
+            device = parse_device_path(test_path_faulty)
+            self.assertTrue(device["vendor_id"] == 0x04d8 and
+                            device["product_id"] == 0x9000 and
+                            device["serial_number"] == "f&1bc0a34f&0&0003" and
+                            'interface_number' not in device)

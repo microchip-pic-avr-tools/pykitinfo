@@ -9,16 +9,15 @@ pykitinfo is available:
 * install using pip from pypi: https://pypi.org/project/pykitinfo
 * browse source code on github: https://github.com/microchip-pic-avr-tools/pykitinfo
 * read API documentation on github: https://microchip-pic-avr-tools.github.io/pykitinfo
-* read the changelog on github: https://github.com/microchip-pic-avr-tools/pykitinfo/blob/main/CHANGELOG.md
 
 pykitinfo currently supports:
 * all PKOB nano (nEDBG), mEDBG and EDBG kits
 * Atmel-ICE, Power Debugger, JTAGICE3
-* PICkit4, Snap (AVR mode)
-* PICkit3, PKoB, PICkit4, PKOB4, Snap (PIC mode) - partial support
+* PICkit3, PKOB
+* PICkit4, Snap, PKOB4, PICkit5
 
 ## Usage
-pykitinfo can be used as a library or as a CLI 
+pykitinfo can be used as a library or as a CLI
 
 ## Example - simple list of connected kits
 ```bash
@@ -38,6 +37,33 @@ Kit ATML2241020200000000: 'SAM L21 Xplained Pro' (ATSAML21J18A) on COM34
 Kit J41800000000: 'Atmel-ICE CMSIS-DAP' () on N/A
 Kit J50200000000: 'Power Debugger CMSIS-DAP' () on N/A
 Kit ATML2323040200000000: 'mEDBG' (ATmega328P) on COM26
+```
+
+## Example - simple list of connected kits with specific serial number
+```bash
+pykitinfo -s <serialnumber ending>
+```
+Displays a simple list of kits in the form:
+Kit SERIAL-NUMBER: 'KIT-NAME' (DEVICE-NAME) on SERIAL-PORT
+
+For example:
+```bash
+pykitinfo -s 29
+Looking for Microchip kits...
+Compatible kits detected: 1
+Kit MCHP3352011800000029: 'PIC-IoT WA' (PIC24FJ128GA705) on COM22
+```
+
+## Example - brief lookup of serial port of connected kit
+```bash
+pykitinfo -b
+```
+Displays ONLY the serial port name of a connected kit.  This can be useful for command chaining.
+
+For example:
+```bash
+pykitinfo -b -s 123456
+COM12
 ```
 
 ## Example - long form list of kits

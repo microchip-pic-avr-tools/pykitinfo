@@ -1,0 +1,76 @@
+[build-system]
+# project table (PEP621) in pyproject.toml was added in setuptools 61.0.0
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pykitinfo"
+authors = [
+    {name = "Microchip Technology", email = "support@microchip.com"}
+]
+description = "A provider of information about connected Microchip development kits"
+license = {text = "MIT"}
+keywords = ["Microchip", "Xplained Pro", "EDBG", "nEDBG", "Curiosity Nano", "PKOB nano", "debugger"]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Embedded Systems",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "License :: OSI Approved :: MIT License"
+]
+
+dependencies = [
+    # External packages
+    "pyusb>=1.2.0",
+    "PyYAML",
+    "appdirs",
+
+    # Microchip packages
+    "pyedbglib>=2.22",
+    "pydebuggerconfig>=3.5"
+]
+
+dynamic = ["readme", "version"]
+
+[tool.setuptools.dynamic]
+readme = {file = ["pypi.md", "CHANGELOG.md"], content-type = "text/markdown"}
+# Get version from package source (__version__ variable in __init__.py)
+version = {attr = "pykitinfo.__version__"}
+
+[project.urls]
+"Homepage" = "https://github.com/microchip-pic-avr-tools/pykitinfo"
+
+[project.optional-dependencies]
+# List of packages required to develop this package
+dev = ["pylint>=2.15"]
+# List of packages required to run the tests in this package
+test = ["mock", "pytest"]
+# List of packages required to generate documentation (using Sphinx) for this package
+doc = [
+    # To avoid missing modules when generating documentation the mock module used by the tests is needed.
+    # The mock module could also be useful if some imports need to be mocked out when generating documentation.
+    "mock",
+    "sphinx"
+]
+
+# If the package has any installable CLIs, list them here
+[project.scripts]
+pykitinfo = "pykitinfo.pykitinfo_cli:main"
+
+# Any special rules for source files to be included can be configured here
+[tool.setuptools.packages.find]
+# Leave out tests and documentation related files from wheel and source distribution
+exclude = ["pykitinfo.tests*", "doc*"]
+
+# Any rules for non-python files to be included can be configured here
+[tool.setuptools.package-data]
+pykitinfo = ["logging.yaml"]

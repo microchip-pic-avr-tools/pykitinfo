@@ -50,7 +50,7 @@ def list_winusb_devices():
         device["path"] = path
         # Different path types can have serial number in upper or lower case
         # To be consistent we reside to upper case which also matches the actual
-        # format of the Gen4 device serial numbers.
+        # format of the PICkit4 device serial numbers.
         device["serial_number"] = device["serial_number"].upper()
 
         # If we have an interface number it is a composite device
@@ -122,6 +122,14 @@ def parse_device_path(path):
     device["vendor_id"] = int(tmp[0].strip("vid_"), 16)
     device["product_id"] = int(tmp[1].strip("pid_"), 16)
     if len(tmp) == 3:
-        device["interface_number"] = int(tmp[2].strip("mi_"))
-
+        try:
+            # Try to determine interface number for composite devices
+            device["interface_number"] = int(tmp[2].strip("mi_"))
+            logger.debug("WinUSB device VID=0x%04X:PID=0x%04X:Interface%d", device['vendor_id'], device["product_id"],
+                                                                            device['interface_number'])
+        except ValueError:
+            logger.debug("WinUSB device VID=0x%04X:PID=0x%04X:UnknownInterface", device['vendor_id'],
+                                                                                 device["product_id"])
+    else:
+        logger.debug("WinUSB device VID=0x%04X:PID=0x%04X", device['vendor_id'], device["product_id"])
     return device

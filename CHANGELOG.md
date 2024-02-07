@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.3] - January 2024
+
+### Added
+- DSG-5792 added brief mode for reporting serial port only
+- DSG-6091 added support for reading out nEDBG extension information
+- DSG-6444 added support for PICkit 5
+
+### Fixed
+- DSG-5767 fixed unicode output in long mode
+- DSG-6310 added fault tolerance for non-numeric interface numbers
+- DSG-7084 fixed crash on Mac when virtual serial port is missing serial number
+- DSG-7087 added fault tolerance for USB devices missing serial number
+
 ## [0.4.0] - November 2022
 
 ### Changed
