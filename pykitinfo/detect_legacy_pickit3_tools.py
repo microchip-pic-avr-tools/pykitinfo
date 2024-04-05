@@ -18,7 +18,7 @@ def detect_pickit3s(serialnumber=None):
     """
     logger = getLogger(__name__)
     logger.debug("Looking for PKoB/PICkit 3 kits")
-    PICKIT3_PRODUCT_NAMES = ["PICkit 3", "Curiosity"]
+    PICKIT3_PRODUCT_NAMES = ["PICkit 3", "Curiosity", "Explorer 16/32 PICkit on Board"]
     pickit_list = []
     devices = hid.enumerate(MICROCHIP_VID)
     for candidate in devices:

@@ -15,6 +15,7 @@ pykitinfo currently supports:
 * Atmel-ICE, Power Debugger, JTAGICE3
 * PICkit3, PKOB
 * PICkit4, Snap, PKOB4, PICkit5
+* MCP2221A
 
 ## Usage
 pykitinfo can be used as a library or as a CLI
@@ -30,13 +31,15 @@ For example:
 ```bash
 pykitinfo
 Looking for Microchip kits...
-Compatible kits detected: 6
+Compatible kits detected: 8
 Kit MCHP3349011800000000: 'AVR-IoT WA' (ATmega4808) on COM21
 Kit MCHP3280021800000000: 'AVR128DA48 Curiosity Nano' (AVR128DA48) on COM17
 Kit ATML2241020200000000: 'SAM L21 Xplained Pro' (ATSAML21J18A) on COM34
 Kit J41800000000: 'Atmel-ICE CMSIS-DAP' () on N/A
 Kit J50200000000: 'Power Debugger CMSIS-DAP' () on N/A
 Kit ATML2323040200000000: 'mEDBG' (ATmega328P) on COM26
+Kit BUR180115004: 'Explorer 16/32 PICkit on Board' () on N/A
+Kit 020063002RYN000091: 'Curiosity Nano Explorer' (N/A) on COM74
 ```
 
 ## Example - simple list of connected kits with specific serial number

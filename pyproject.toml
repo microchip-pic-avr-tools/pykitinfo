@@ -10,7 +10,7 @@ authors = [
 ]
 description = "A provider of information about connected Microchip development kits"
 license = {text = "MIT"}
-keywords = ["Microchip", "Xplained Pro", "EDBG", "nEDBG", "Curiosity Nano", "PKOB nano", "debugger"]
+keywords = ["Microchip", "Xplained Pro", "EDBG", "nEDBG", "Curiosity Nano", "PKOB nano", "debugger", "MCP2221A"]
 requires-python = ">=3.8"
 classifiers = [
     "Development Status :: 5 - Production/Stable",

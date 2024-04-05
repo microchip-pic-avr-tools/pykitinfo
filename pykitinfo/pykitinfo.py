@@ -6,6 +6,7 @@ import json
 from .detect_microchip_tools import detect_microchip_tools
 from .detect_edbg_tools import detect_edbg_kits
 from .detect_legacy_pickit3_tools import detect_pickit3s
+from .detect_mcp2221a_tools import detect_mcp2221a_kits
 
 STATUS_SUCCESS = 0
 STATUS_FAILURE = 1
@@ -62,4 +63,6 @@ def detect_all_kits(serialnumber=None):
     kit_list += detect_edbg_kits(serialnumber)
     kit_list += detect_pickit3s(serialnumber)
     kit_list += detect_microchip_tools(serialnumber)
+    kit_list += detect_mcp2221a_kits(serialnumber)
+
     return kit_list

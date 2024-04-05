@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.2] - April 2024
+
+### Added
+- DSG-7105 added support for Explorer 16/32 kit
+- DSG-7181 added support for MCP2221A kits
+
 ## [1.0.3] - January 2024
 
 ### Added
