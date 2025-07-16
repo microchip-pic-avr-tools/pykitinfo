@@ -10,18 +10,31 @@ authors = [
 ]
 description = "A provider of information about connected Microchip development kits"
 license = {text = "MIT"}
-keywords = ["Microchip", "Xplained Pro", "EDBG", "nEDBG", "Curiosity Nano", "PKOB nano", "debugger", "MCP2221A"]
+keywords = ["Microchip",
+            "Xplained Pro",
+            "EDBG",
+            "nEDBG",
+            "Curiosity Nano",
+            "PKOB nano", "debugger",
+            "MCP2221A",
+            "PkOB4",
+            "PICkit4",
+            "PICkit5",
+            "Snap",
+            "PICkit Basic",
+            "Curiosity Ultra",
+            "Curiosity Pro"]
 requires-python = ">=3.8"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Embedded Systems",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS",
@@ -33,9 +46,9 @@ dependencies = [
     "pyusb>=1.2.0",
     "PyYAML",
     "appdirs",
-
+    "libusb_package",
     # Microchip packages
-    "pyedbglib>=2.22",
+    "pyedbglib~=2.22",
     "pydebuggerconfig>=3.5"
 ]
 
@@ -69,7 +82,7 @@ pykitinfo = "pykitinfo.pykitinfo_cli:main"
 # Any special rules for source files to be included can be configured here
 [tool.setuptools.packages.find]
 # Leave out tests and documentation related files from wheel and source distribution
-exclude = ["pykitinfo.tests*", "doc*"]
+exclude = ["pykitinfo.tests*", "doc*", "build*"]
 
 # Any rules for non-python files to be included can be configured here
 [tool.setuptools.package-data]

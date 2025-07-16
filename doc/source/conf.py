@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'pykitinfo'
-copyright = '2024, Microchip Technology Inc'
+copyright = '2025, Microchip Technology Inc'
 author = 'Microchip Technology Inc'
 
 

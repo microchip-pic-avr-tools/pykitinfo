@@ -132,29 +132,61 @@ MICROCHIP_NON_HID_TOOLS = [
                 # Composite: Vendor + CDC + DGI
                 "VID": MICROCHIP_VID,
                 "PID": 0x9029,
-                "Name": "MPLAB® Snap",
+                "Name": "MPLAB® Snap In-Circuit Debugger",
                 "Serial port": True
             },
             {
                 "VID": MICROCHIP_VID,
                 "PID": 0x902A,
                 "Name": "MPLAB® ICD4 Bootloader",
-            },
-            {
-                "VID": MICROCHIP_VID,
-                "PID": 0x902A,
-                "Name": "MPLAB® ICD4 Bootloader",
-            },
-            {
-                "VID": MICROCHIP_VID,
-                "PID": 0x9036,
-                "Name": "MPLAB® PICkit™5",
-                "Serial port": True
             },
             {
                 "VID": MICROCHIP_VID,
                 "PID": 0x9035,
-                "Name": "MPLAB® PICkit™5 Bootloader",
+                "Name": "MPLAB® PICkit™ 5 Bootloader",
+            },
+            {
+                "VID": MICROCHIP_VID,
+                "PID": 0x9036,
+                "Name": "MPLAB® PICkit™ 5",
+                "Serial port": True
+            },
+            {
+                # Vendor + CDC + DGI
+                "VID": MICROCHIP_VID,
+                "PID": 0x904C,
+                "Name": "MPLAB® PKoB4 CMSIS-DAP",
+                "Serial port": True
+            },
+            {# Vendor + CDC interfaces
+                "VID": MICROCHIP_VID,
+                "PID": 0x9055,
+                "Name": "MPLAB® PICkit™ Basic",
+                "Serial port": True
+            },
+            {#  Vendor + CDC
+                "VID": MICROCHIP_VID,
+                "PID": 0x90AC,
+                "Name": "MPLAB® PICkit Basic CMSIS-DAP",
+                "Serial port": True
+            },
+            {# Vendor + CDC
+                "VID": MICROCHIP_VID,
+                "PID": 0x90AF,
+                "Name": "MPLAB® PICkit™ 4 CMSIS-DAP",
+                "Serial port": True
+            },
+            {# Vendor + CDC
+                "VID": MICROCHIP_VID,
+                "PID": 0x90B0,
+                "Name": "MPLAB® PICkit™ 5 CMSIS-DAP",
+                "Serial port": True
+            },
+            {# Vendor + CDC
+                "VID": MICROCHIP_VID,
+                "PID": 0x90B1,
+                "Name": "MPLAB® Snap CMSIS-DAP",
+                "Serial port": True
             },
         ]
 

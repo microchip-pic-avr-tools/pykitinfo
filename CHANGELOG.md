@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0] - July 2025
+
+### Added
+- DSG-7903 added readout of kit info from PKoB4
+
+### Fixed
+- DSG-7553 fixed a crash due to missing udev rules on Linux
+- DSG-7323 fixed package to exclude build folder
+
 ## [1.1.2] - April 2024
 
 ### Added

@@ -4,17 +4,20 @@ These tools are generally Vendor class USB interface and use the Microchip USB V
 Examples: PICkit4 (not in 'AVR mode') and PICkit5
 """
 from logging import getLogger
-import platform
-import pprint
-import usb.core
-import usb.util
+import libusb_package
+import usb
 from pyedbglib.serialport.serialportmap import SerialPortMap
+from pydebuggerconfig.boardconfig import BoardConfig
+from pydebuggerconfig.pydebuggerconfig_errors import PydebuggerconfigError
 import serial.tools.list_ports
 from .tools import lookup_tool
 from .tools import MICROCHIP_VID
+from .genx import GenxContoller, GenxError
+
 
 logger = getLogger(__name__)
 
+# pylint: disable=too-few-public-methods
 class VendorClassTool ():
     """
     Class for holding information about Vendor class tools
@@ -27,7 +30,7 @@ class MicrochipVendorClassToolsSerialPortMap(SerialPortMap):
     This is a utility to find virtual serial port name based on the tool's device serial number.
     A sub-set of functionality is supported compared to the pyedbglib version for HID/CMSIS-DAP tools.
     """
-    def __init__(self):
+    def __init__(self): #pylint: disable=super-init-not-called
         """
         Create map of tools and ports based on serial number matching. Method used is
         very different on Windows and other platforms.
@@ -46,67 +49,97 @@ class MicrochipVendorClassToolsSerialPortMap(SerialPortMap):
                 self.logger.debug("No serial number associated with %s, ignoring",
                                   port.hwid)
                 continue
-            if "PID={:04X}".format(MICROCHIP_VID) in port.hwid:
+            if f"PID={MICROCHIP_VID:04X}" in port.hwid:
                 self.portmap.append({"tool" : VendorClassTool(port.serial_number), "port": port.device})
 
-if platform.system() == "Windows":
-    from .winusb import list_winusb_devices
-    def list_winusb_tools(serialnumber=None):
-        """
-        List all Microchip Vendor class tools bound to winusb
+def get_kit_info(device):
+    """Get the kit info from PKoB4
 
-        :param serialnumber: (partial) serial number to use
-        :type serialnumber: str
-        :return: List of detected tools
-        :rtype: list
-        """
-        tools = []
-        winusb_devices = list_winusb_devices()
-        for device in winusb_devices:
-            logger.debug("Found WinUSB device \n%s", pprint.pformat(device))
-            device_serial = device['serial_number']
-            if serialnumber and device_serial and not device_serial.endswith(serialnumber):
-                continue
-            if device["vendor_id"] == MICROCHIP_VID:
-                tool = lookup_tool(device["product_id"])
-                if tool:
-                    # Debugger properties
-                    debugger = {
-                        'device': '',
-                        'serial_number': device_serial,
-                        'protocol': 'N/A',
-                        # Use product name as kit name
-                        'kitname' : tool['Name'],
-                        'serial_port': 'N/A',
-                    }
-                    if "Serial port" in tool and tool["Serial port"] is True:
-                        serial_port_mapper = MicrochipVendorClassToolsSerialPortMap()
-                        try:
-                            sp_list = serial_port_mapper.find_matching_tools_ports(device_serial)
-                            debugger['serial_port'] = sp_list[0]['port']
-                        except IndexError:
-                            # Unable to determine serial port
-                            debugger['serial_port'] = 'N/A'
+    :param device: pyusb USB device
+    :type device: Device
+    """
+    kit_info = {}
+    try:
+        genx_tool = GenxContoller(device)
+        board = BoardConfig()
+        # Hack to inject GenxController into BoardConfig
+        board.protocol = genx_tool
+        board.transport = True
+        board.transport_connected = True
+        board.config_read_from_board()
 
-                    usb_info = {
-                    "interface": "winusb",
-                    "packet_size": 0,
-                    "product_id": device['product_id'],
-                    "product_string": "Not read out",
-                    "serial_number": device_serial,
-                    "vendor_id": device['vendor_id']
-                    }
+        kit_info["kitname"] = board.register_get("KITNAME").replace('\u0000', '')
+        kit_info["device"] = board.register_get("DEVNAME").replace('\u0000', '')
+        kit_info["manufacturer"] = board.register_get("MNFRNAME").replace('\u0000', '')
+        kit_info["serialnumber"] = board.register_get("SERNUM").replace('\u0000', '')
+    # The TypeError is here only until pydebuggerconfig library is fixed and returns
+    # a library specific error based on PydebuggerconfigError
+    except (TypeError, PydebuggerconfigError, GenxError) as exc:
+        logger.warning("Could not read detailed tool information: %s", exc)
+        kit_info["kitname"] = "N/A"
+        kit_info["device"] = "N/A"
+        kit_info["manufacturer"] = "N/A"
+        kit_info["serialnumber"] = "N/A"
 
-                    kit = {
-                        'usb': usb_info,
-                        'debugger': debugger
-                    }
-                    tools.append(kit)
-        return tools
+    return kit_info
+
+def generate_kit_info(device, tool, serial_number):
+    """Generate kit info
+
+    :param device: pyusb device
+    :type device: device
+    :param tool: Tool information
+    :type tool: dict
+    :param serial_number: Tool serial number
+    :type serial_number: str
+    :return: Kit information
+    :rtype: dict
+    """
+    try:
+        product_name = device.product
+    except ValueError as exc:
+        logger.debug("Device VID=0x%04x PID=%04x %s", device.idVendor, device.idProduct, exc)
+        product_name = "N/A"
+
+    debugger = {
+        'device': '',
+        'serial_number': serial_number,
+        'protocol': 'N/A',
+        'kitname' : tool['Name'],
+        'serial_port': 'N/A',
+    }
+
+    # TODO Once the CMSIS based PKoB supports kit-info we can change this to
+    # read out the info again
+    if "pkob4" in tool['Name'].lower() and "cmsis" not in tool['Name'].lower():
+        kit_info = get_kit_info(device)
+        debugger["device"] = kit_info["device"]
+        debugger["kitname"] = kit_info["kitname"]
+
+    if "Serial port" in tool and tool["Serial port"] is True:
+        serial_port_mapper = MicrochipVendorClassToolsSerialPortMap()
+        try:
+            debugger['serial_port'] = serial_port_mapper.find_matching_tools_ports(serial_number)[0]['port']
+        except IndexError:
+            debugger['serial_port'] = 'N/A'
+
+    usb_info = {
+        "interface": "winusb",
+        "packet_size": device.bMaxPacketSize0,
+        "product_id": device.idProduct,
+        "product_string": product_name,
+        "serial_number": serial_number,
+        "vendor_id": device.idVendor
+        }
+    kit = {
+        'usb': usb_info,
+        'debugger': debugger
+    }
+    return kit
 
 def list_libusb_tools(serialnumber=None):
     """
-    List all Microchip Vendor class tools bound to libusb
+    List all Microchip Vendor class tools that libusb can find
 
     :param serialnumber: (partial) serial number to use
     :type serialnumber: str
@@ -114,46 +147,35 @@ def list_libusb_tools(serialnumber=None):
     :rtype: list
     """
     tools = []
-    devices = usb.core.find(find_all=True, idVendor=MICROCHIP_VID)
+    devices =  libusb_package.find(find_all=True, idVendor=MICROCHIP_VID)
     for device in devices:
-        serial_number = device.serial_number
-        if serialnumber and serial_number and not serial_number.endswith(serialnumber):
-            continue
         tool = lookup_tool(device.idProduct)
         if tool:
-            product_name = device.product
-            debugger = {
-                'device': '',
-                'serial_number': serial_number,
-                'protocol': 'N/A',
-                'kitname' : tool['Name'],
-                'serial_port': 'N/A',
-            }
-            if "Serial port" in tool and tool["Serial port"] is True:
-                serial_port_mapper = MicrochipVendorClassToolsSerialPortMap()
-                try:
-                    debugger['serial_port'] = serial_port_mapper.find_matching_tools_ports(serial_number)[0]['port']
-                except IndexError:
-                    debugger['serial_port'] = 'N/A'
+            try:
+                serial_number = device.serial_number
+                if serial_number is None:
+                    raise ValueError("Tool has no serial number")
+                # Some tools pad the serial number with \u0000 but these must be stripped
+                # for comparison with OS detected serial numbers
+                serial_number = serial_number.replace('\u0000', '')
+            except ValueError as exc:
+                logger.debug("Device VID=0x%04x PID=%04x %s", device.idVendor, device.idProduct, exc)
+                serial_number = "N/A"
+            if serialnumber and serial_number and not serial_number.endswith(serialnumber):
+                continue
 
-            usb_info = {
-                "interface": "winusb",
-                "packet_size": device.bMaxPacketSize0,
-                "product_id": device.idProduct,
-                "product_string": product_name,
-                "serial_number": serial_number,
-                "vendor_id": device.idVendor
-                }
-            kit = {
-                'usb': usb_info,
-                'debugger': debugger
-            }
-            tools.append(kit)
+            if tool:
+                try:
+                    kit = generate_kit_info(device, tool, serial_number)
+                    tools.append(kit)
+                except usb.core.USBError as exc:
+                    logger.error("Device VID=0x%04x PID=%04x %s", device.idVendor, device.idProduct, exc)
     return tools
+
 
 def detect_microchip_tools(serialnumber=None):
     """
-    Detect all USB tools in the PICkit4/PICkit5 family.
+    Detect all USB tools in the Gen4/5 family.
 
     The tools are searched by using winusb library on Windows and libusb on all other platforms.
     :param serialnumber: (partial) serial number to use
@@ -161,9 +183,7 @@ def detect_microchip_tools(serialnumber=None):
     :return: List of detected tools
     :rtype: list
     """
-    logger.debug("Looking for PICkit4/PICkit5 tools")
-    if platform.system() == "Windows":
-        tools = list_winusb_tools(serialnumber)
-    else:
-        tools = list_libusb_tools(serialnumber)
+
+    logger.debug("Looking for Microchip USB Vendor Class tools")
+    tools = list_libusb_tools(serialnumber)
     return tools
