@@ -23,8 +23,9 @@ def detect_mcp2221a_kits(serial_number=None):
     kits = []
 
     for device in devices:
-        if serial_number and device['serial_number'] and not device['serial_number'].endswith(serial_number):
-            continue
+        if serial_number:
+            if not device['serial_number'] or not device['serial_number'].endswith(serial_number):
+                continue
 
         mapped_port = list(filter(lambda dev: dev['tool'] == device, port_map))
 

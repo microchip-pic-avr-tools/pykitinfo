@@ -103,7 +103,12 @@ def main():
             '''),
         epilog=textwrap.dedent('''\
     Usage examples:
-        
+        Show basic kit information:
+            pykitinfo
+        Show detailed kit information:
+            pykitinfo -l
+        Show basic kit information for kit with serial number that ends with ABCDEFG
+            pykitinfo -s ABCDEFG
             '''))
 
     parser.add_argument("-l", "--long", action="store_true",

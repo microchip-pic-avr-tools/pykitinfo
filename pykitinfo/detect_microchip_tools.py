@@ -170,6 +170,7 @@ def list_libusb_tools(serialnumber=None):
                     tools.append(kit)
                 except usb.core.USBError as exc:
                     logger.error("Device VID=0x%04x PID=%04x %s", device.idVendor, device.idProduct, exc)
+        usb.util.dispose_resources(device)
     return tools
 
 

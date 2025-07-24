@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1] - July 2025
+
+### Fixed
+- DSG-7940 fixed filtering of MCP2221A kits
+- DSG-7941 fixed releasing of USB devices after use
+- DSG-7933 improved CLI documentation
+
 ## [1.3.0] - July 2025
 
 ### Added
